@@ -1,6 +1,7 @@
 import './HubView.scss';
 
 import Header from '../components/Header';
+import EpisodeCard from '../components/EpisodeCard';
 
 function Hub() {
   return(
@@ -12,7 +13,21 @@ function Hub() {
       </Header>
       <main className='site-main'>
         <div className='container'>
-          <p className='my-4'>Ut eu velit et erat aliquam venenatis. Sed eu sem ut felis scelerisque tincidunt id eu eros. Praesent id blandit tortor, in molestie velit. Integer mollis massa sed sem venenatis, a pharetra ligula sollicitudin. Donec blandit consectetur nulla, non pulvinar quam. In ut velit a leo maximus ultricies. Suspendisse condimentum, orci nec placerat dictum, quam nisl fermentum mi, non elementum quam orci quis massa. Quisque congue ligula sapien, eget faucibus ex aliquet ac. Maecenas varius euismod scelerisque. Phasellus elementum enim nisl, non aliquet nunc egestas nec. Nullam nulla orci, tristique sagittis pellentesque non, mattis at odio. Nam quis turpis vel turpis pulvinar congue id in velit. Nullam viverra ante et erat finibus, sit amet varius sapien sagittis. In egestas bibendum facilisis. </p>
+          <h2 className='text-uppercase mt-3 mb-4'>Some Episodes</h2>
+          <div className='row'>
+            <div className='col-6 mb-4'>
+              <EpisodeCard episodeId={677} />
+            </div>
+            <div className='col-6 mb-4'>
+              <EpisodeCard episodeId={678} />
+            </div>
+            <div className='col-6 mb-4'>
+              <EpisodeCard episodeId={679} />
+            </div>
+            <div className='col-6 mb-4'>
+              <EpisodeCard episodeId={680} />
+            </div>
+          </div>
         </div>
       </main>
     </>
