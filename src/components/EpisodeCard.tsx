@@ -10,6 +10,8 @@ function EpisodeCard(props: EpisodeCardProps) {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [episodeImage] = useState<string>('https://placehold.co/250.jpg');
+  const [publishDate, setPublishDate] = useState<string>("");
+  const [duration, setDuration] = useState<string>("");
 
   const episodeId = props.episodeId;
 
@@ -24,6 +26,8 @@ function EpisodeCard(props: EpisodeCardProps) {
       const result = await response.json();
       setTitle(result.title);
       setDescription(result.description);
+      setPublishDate(result.published_date);
+      setDuration(result.duration);
     }
 
     fetchData();
@@ -37,11 +41,21 @@ function EpisodeCard(props: EpisodeCardProps) {
             className='img-fluid'
             src={episodeImage}
             alt='episode image' />
-          <p className='episode-category'>Category</p>
         </div>
         <div className='col-8'>
-          <p className='h6'>{title}</p>
-          <div dangerouslySetInnerHTML={{ __html: description }}></div>
+          <p className='h5'>{title}</p>
+          <div className='episode-description' dangerouslySetInnerHTML={{ __html: description }}></div>
+        </div>
+      </div>
+      <div className='row'>
+        <div className='col-4'>
+          <p className='h6 text-uppercase'>Category</p>
+        </div>
+        <div className='col-8'>
+          <div className='d-flex justify-content-between'>
+            <span className='text-weight-bold'>{publishDate}</span>
+            <span className='text-weight-bold'>{duration}</span>
+          </div>
         </div>
       </div>
     </div>
