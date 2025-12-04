@@ -66,7 +66,7 @@ function EpisodeCard(props: EpisodeCardProps) {
       <div className='d-flex flex-wrap'>
         {tags && tags.map((tag) => {
           return (
-          <span className='badge badge-default mr-4'>{tag}</span>
+          <span key={tag} className='badge badge-default mr-4'>{tag}</span>
           )
         })}
       </div>
