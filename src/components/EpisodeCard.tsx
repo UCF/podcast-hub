@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './EpisodeCard.scss';
+import type PodcastCategory from '../types/PodcastCategory';
 
 export interface EpisodeCardProps {
   episodeId?: number;
@@ -11,7 +12,9 @@ function EpisodeCard(props: EpisodeCardProps) {
   const [description, setDescription] = useState<string>("");
   const [episodeImage] = useState<string>('https://placehold.co/250.jpg');
   const [publishDate, setPublishDate] = useState<string>("");
+  const [category, setCategory] = useState<PodcastCategory>();
   const [duration, setDuration] = useState<string>("");
+  const [tags, setTags] = useState<Array<string>>([]);
 
   const episodeId = props.episodeId;
 
@@ -28,13 +31,15 @@ function EpisodeCard(props: EpisodeCardProps) {
       setDescription(result.description);
       setPublishDate(result.published_date);
       setDuration(result.duration);
+      setCategory(result.category);
+      setTags(result.tags);
     }
 
     fetchData();
   }, [episodeId]);
 
   return(
-    <div className='episode-card'>
+    <div className='episode-card mb-4'>
       <div className='row'>
         <div className='col-4'>
           <img
@@ -49,7 +54,7 @@ function EpisodeCard(props: EpisodeCardProps) {
       </div>
       <div className='row'>
         <div className='col-4'>
-          <p className='h6 text-uppercase'>Category</p>
+          <p className='h6 text-uppercase'>{category?.title}</p>
         </div>
         <div className='col-8'>
           <div className='d-flex justify-content-between'>
@@ -57,6 +62,13 @@ function EpisodeCard(props: EpisodeCardProps) {
             <span className='text-weight-bold'>{duration}</span>
           </div>
         </div>
+      </div>
+      <div className='d-flex flex-wrap'>
+        {tags && tags.map((tag) => {
+          return (
+          <span className='badge badge-default mr-4'>{tag}</span>
+          )
+        })}
       </div>
     </div>
   );
