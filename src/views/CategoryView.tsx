@@ -3,10 +3,12 @@ import Header from '../components/Header';
 import './CategoryView.scss';
 import EpisodeList from '../components/EpisodeList';
 import { useEffect, useState } from 'react';
+import NotFoundView from './NotFound';
 
 function CategoryView() {
   const { category } = useParams();
   const [title, setTitle] = useState<string>();
+  const [notFound, setNotFound] = useState<boolean>(false);
   const [description, setDescription] = useState<string>();
 
   useEffect(() => {
@@ -14,6 +16,11 @@ function CategoryView() {
 
     const fetchData = async() => {
       const response = await fetch(url);
+      if (response.status === 404) {
+        setNotFound(true);
+        return;
+      }
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -29,17 +36,22 @@ function CategoryView() {
 
   return (
     <>
-      <Header headingText={title!}>
-        <div className='w-100 w-md-75'>
-          <p className='text-inverse'>{ description }</p>
-        </div>
-      </Header>
-      <main className='site-main'>
-        <div className='container'>
-          <h2 className='text-uppercase mt-3 mb-4'>Some Episodes</h2>
-          <EpisodeList category={category} />
-        </div>
-      </main>
+    { notFound ? (
+      <NotFoundView />
+    ) : (
+      <>
+        <Header headingText={title!}>
+          <div className='w-100 w-md-75'>
+            <p className='text-inverse'>{ description }</p>
+          </div>
+        </Header>
+        <main className='site-main pt-5'>
+          <div className='container'>
+            <EpisodeList category={category} />
+          </div>
+        </main>
+      </>
+    )}
     </>
   )
 }
