@@ -3,13 +3,13 @@ import './App.scss'
 import {
   BrowserRouter,
   Route,
-  Routes
+  Routes,
+  Navigate
 } from 'react-router-dom';
 
 import HubView from './views/HubView';
 import Footer from './components/Footer';
 import Category from './views/CategoryView';
-import NotFoundView from './views/NotFound';
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route index={true} element={<HubView />} />
         <Route path='/category/:category' element={<Category />} />
-        <Route path="*" element={<NotFoundView />} />
+        <Route path="*" element={<Navigate to="/404.html" />} />
       </Routes>
       <Footer />
     </BrowserRouter>
