@@ -17,9 +17,11 @@ function EpisodeCard(props: EpisodeCardProps) {
   const [tags, setTags] = useState<Array<string>>([]);
 
   const episodeId = props.episodeId;
+  const searchServiceURL = import.meta.env.VITE_SEARCH_SERVICE_URL;
 
   useEffect(() => {
-    const url = `http://127.0.0.1:8000/api/v1/podcasts/episodes/${episodeId}`;
+    const url = `${searchServiceURL}/api/v1/podcasts/episodes/${episodeId}/`;
+
     const fetchData = async() => {
       const response = await fetch(url);
       if (!response.ok) {
