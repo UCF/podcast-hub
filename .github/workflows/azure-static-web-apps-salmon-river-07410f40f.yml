@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - test
+      - develop
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
@@ -14,6 +16,12 @@ jobs:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
+    env:
+      VITE_BASE_MENU_API_URL: ${{ vars.VITE_BASE_MENU_API_URL }}
+      VITE_HEADER_MENU_ID: ${{ vars.VITE_HEADER_MENU_ID }}
+      VITE_FOOTER_MENU_ID: ${{ vars.VITE_FOOTER_MENU_ID }}
+      VITE_SOCIAL_MENU_ID: ${{ vars.VITE_SOCIAL_MENU_ID }}
+      VITE_SEARCH_SERVICE_URL: ${{ vars.VITE_SEARCH_SERVICE_URL }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -25,6 +33,7 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_SALMON_RIVER_07410F40F }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          production_branch: 'main'
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig

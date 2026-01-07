@@ -8,6 +8,7 @@ import {
 
 import HubView from './views/HubView';
 import Footer from './components/Footer';
+import Category from './views/CategoryView';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index={true} element={<HubView />} />
+        <Route path='/category/:category' element={<Category />} />
       </Routes>
       <Footer />
     </BrowserRouter>
