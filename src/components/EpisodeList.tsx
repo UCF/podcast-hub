@@ -9,9 +9,10 @@ export interface EpisodeListProps {
 
 function EpisodeList(props: EpisodeListProps) {
   const [episodes, setEpisodes] = useState<Array<PodcastEpisode>>();
+  const searchServiceURL = import.meta.env.VITE_SEARCH_SERVICE_URL;
 
   useEffect(() => {
-    const url = `http://127.0.0.1:8000/api/v1/podcasts/${props.showId}/episodes/`;
+    const url = `${searchServiceURL}/api/v1/podcasts/${props.showId}/episodes/?fields=id`;
     const fetchData = async() => {
       const response = await fetch(url);
       if (!response.ok) {
