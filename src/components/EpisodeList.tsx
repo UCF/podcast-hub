@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
-import type PodcastEpisode from '../types/PodcastEpisode';
 import './EpisodeList.scss'
 import EpisodeCard from './EpisodeCard';
+
+import type PodcastEpisode from '../types/PodcastEpisode';
+import type PaginatorNode from '../types/PaginatorNode';
+import Paginator from './Paginator';
 
 export interface EpisodeListProps {
   search?: string;
@@ -21,6 +24,19 @@ function EpisodeList(props: EpisodeListProps) {
   const limit = props.limit || Number.MAX_SAFE_INTEGER;
   const [page, setPage] = useState(props.page || 0);
   const [pageCount, setPageCount] = useState(0);
+
+  const generatePaginatorNodes = () => {
+    const retval: Array<PaginatorNode> = [];
+    if (pageCount < 2) return retval;
+
+    // Add the previous page
+    retval.push({
+      index: page - 1 > 0 ? page - 1 : 0,
+      displayValue: '<'
+    });
+
+    return retval;
+  };
 
   useEffect(() => {
     const baseUrl = `${searchServiceURL}/api/v1/podcasts/episodes/`;
@@ -55,17 +71,7 @@ function EpisodeList(props: EpisodeListProps) {
     };
 
     fetchData();
-  }, [props, searchServiceURL, limit, page])
-
-  const setCurrentPage = (delta: number) => {
-    const _page = page || 0;
-    let newPageIndex = _page + delta;
-
-    if (newPageIndex < 0) newPageIndex = 0;
-    if (newPageIndex > pageCount! - 1) newPageIndex = pageCount - 1;
-
-    setPage(newPageIndex);
-  };
+  }, [props, searchServiceURL, limit, page, perPage])
 
   return (
     <>
@@ -78,24 +84,10 @@ function EpisodeList(props: EpisodeListProps) {
           )
         }))}
       </div>
-      { pageCount > 1 && (
-        <nav aria-label="Result pagination">
-          <ul className='pagination'>
-            <li className='page-item'><a className='page-link' href='#' onClick={() => setCurrentPage(-1)}>Previous</a></li>
-            {[...Array(pageCount)].map((_, index) => (
-              <li key={index} className={`page-item ${index == page ? 'active' : ''}`}>
-                <a
-                  className='page-link'
-                  href='#'
-                  onClick={() => setPage(index)}>
-                    {index + 1}
-                </a>
-              </li>
-            ))}
-            <li className='page-item'><a className='page-link' href='#' onClick={() => setCurrentPage(1)}>Next</a></li>
-          </ul>
-        </nav>
-      )}
+      <Paginator
+        currentPage={page}
+        pageCount={pageCount}
+        onPageChange={setPage} />
     </>
   );
 }

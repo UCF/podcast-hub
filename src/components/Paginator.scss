@@ -1,0 +1,25 @@
+/* Paginator component styles */
+.pagination {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  .page-link {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .page-item {
+    &:first-child .page-link {
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem;
+    }
+
+    &:last-child .page-link {
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+    }
+  }
+}
