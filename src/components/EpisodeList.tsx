@@ -3,7 +3,6 @@ import './EpisodeList.scss'
 import EpisodeCard from './EpisodeCard';
 
 import type PodcastEpisode from '../types/PodcastEpisode';
-import type PaginatorNode from '../types/PaginatorNode';
 import Paginator from './Paginator';
 
 export interface EpisodeListProps {
@@ -24,19 +23,6 @@ function EpisodeList(props: EpisodeListProps) {
   const limit = props.limit || Number.MAX_SAFE_INTEGER;
   const [page, setPage] = useState(props.page || 0);
   const [pageCount, setPageCount] = useState(0);
-
-  const generatePaginatorNodes = () => {
-    const retval: Array<PaginatorNode> = [];
-    if (pageCount < 2) return retval;
-
-    // Add the previous page
-    retval.push({
-      index: page - 1 > 0 ? page - 1 : 0,
-      displayValue: '<'
-    });
-
-    return retval;
-  };
 
   useEffect(() => {
     const baseUrl = `${searchServiceURL}/api/v1/podcasts/episodes/`;
