@@ -12,9 +12,15 @@ function Hub() {
         </div>
       </Header>
       <main className='site-main'>
+        <div className='jumbotron bg-faded py-5'>
+          <div className='container'>
+            <h2 className='heading-underline mb-4'>Latest Episodes</h2>
+            <EpisodeList limit={4} />
+          </div>
+        </div>
         <div className='container'>
           <h2 className='text-uppercase mt-3 mb-4'>Some Episodes</h2>
-          <EpisodeList showId={1} />
+          <EpisodeList />
         </div>
       </main>
     </>
