@@ -9,6 +9,7 @@ export interface EpisodeListProps {
   category?: string;
   tags?: Array<number>;
   limit?: number;
+  perPage?: number;
   page?: number;
 }
 
@@ -16,14 +17,14 @@ function EpisodeList(props: EpisodeListProps) {
   const [episodes, setEpisodes] = useState<Array<PodcastEpisode>>();
   const searchServiceURL = import.meta.env.VITE_SEARCH_SERVICE_URL;
 
-  const [limit] = useState(props.limit);
+  const perPage = props.perPage || 10;
+  const limit = props.limit || Number.MAX_SAFE_INTEGER;
   const [page, setPage] = useState(props.page || 0);
   const [pageCount, setPageCount] = useState(0);
 
   useEffect(() => {
     const baseUrl = `${searchServiceURL}/api/v1/podcasts/episodes/`;
     const params: Record<string, string> = {};
-    const _limit = limit || 10;
     const _page = page || 0;
 
     if (props.showId) params['show'] = props.showId.toString();
@@ -31,8 +32,8 @@ function EpisodeList(props: EpisodeListProps) {
     if (props.search) params['search'] = props.search;
     if (props.tags) params['tags'] = props.tags.join(',');
 
-    params['limit'] = _limit.toString();
-    params['offset'] = (_limit * _page).toString();
+    params['limit'] = Math.min(limit, perPage).toString();
+    params['offset'] = (perPage * _page).toString();
 
     params['fields'] = 'id';
 
@@ -47,7 +48,8 @@ function EpisodeList(props: EpisodeListProps) {
       const result = await response.json();
 
       // Get Page count
-      const pageCount = Math.ceil(result.count / _limit);
+      const c = Math.min(limit, result.count);
+      const pageCount = Math.ceil(c / perPage);
       setPageCount(pageCount);
       setEpisodes(result.results);
     };
