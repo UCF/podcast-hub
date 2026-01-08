@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './EpisodeCard.scss';
 import type PodcastCategory from '../types/PodcastCategory';
+import { Link } from 'react-router-dom';
 
 export interface EpisodeCardProps {
   episodeId?: number;
@@ -56,7 +57,9 @@ function EpisodeCard(props: EpisodeCardProps) {
       </div>
       <div className='row'>
         <div className='col-4'>
-          <p className='h6 text-uppercase'>{category?.title}</p>
+          <Link to={`/category/${category?.slug}`} className='h6 text-uppercase badge badge-primary'>
+            {category?.title}
+          </Link>
         </div>
         <div className='col-8'>
           <div className='d-flex justify-content-between'>
